@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Today's Horoscope - Vedastro</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <style>
+    :root {
+      --purple: #7c3aed;
+      --gold: #ffd700;
+      --bg: #f8fafc;
+      --bg2: #ede9fe;
+      --text: #222;
+      --radius: 1.2rem;
+      --shadow: 0 4px 18px rgba(124,58,237,0.09);
+    }
+    html, body {
+      box-sizing: border-box;
+      width: 100%;
+      min-width: 0;
+      min-height: 100vh;
+    }
+    *, *:before, *:after {
+      box-sizing: inherit;
+    }
+    body {
+      margin: 0;
+      font-family: 'Montserrat', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      width: 100%;
+      min-width: 0;
+      min-height: 100vh;
+    }
+    .header {
+      text-align: center;
+      background: var(--bg2);
+      padding: 2rem 1rem 1rem 1rem;
+      border-radius: 0 0 2rem 2rem;
+      box-shadow: var(--shadow);
+      font-size: 2rem;
+      color: var(--purple);
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 2rem;
+      max-width: 100vw;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .container {
+      max-width: 430px;
+      margin: 0 auto 2rem auto;
+      background: #fff;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 2rem 1.5rem 1.5rem 1.5rem;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    label {
+      font-weight: 600;
+      color: var(--purple);
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+    select {
+      width: 100%;
+      padding: 0.7rem;
+      border: 1.5px solid var(--gold);
+      border-radius: 0.7rem;
+      font-size: 1rem;
+      background: #f3f0ff;
+      color: #5b21b6;
+      box-sizing: border-box;
+      outline: none;
+      margin-bottom: 1.2rem;
+      transition: border 0.2s;
+    }
+    select:focus {
+      border: 2px solid var(--purple);
+      background: #ede9fe;
+    }
+    .horoscope-card {
+      background: var(--bg2);
+      border-radius: 1rem;
+      box-shadow: 0 2px 8px rgba(124,58,237,0.07);
+      padding: 1.2rem 1rem;
+      color: #3b0764;
+      font-size: 1.07rem;
+      margin-bottom: 1.2rem;
+    }
+    .horoscope-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--purple);
+      margin-bottom: 0.7rem;
+      text-align: center;
+    }
+    .horoscope-section {
+      margin-bottom: 0.7rem;
+    }
+    .horoscope-label {
+      font-weight: 600;
+      color: var(--gold);
+      margin-right: 0.5rem;
+    }
+    .lucky {
+      display: flex;
+      gap: 1.2rem;
+      justify-content: center;
+      margin-top: 1rem;
+      font-size: 1.05rem;
+    }
+    .share-btn {
+      display: block;
+      margin: 1.2rem auto 0 auto;
+      background: linear-gradient(90deg, var(--purple) 0%, var(--gold) 100%);
+      color: #fff;
+      font-size: 1.05rem;
+      font-weight: 600;
+      padding: 0.7rem 2rem;
+      border: none;
+      border-radius: 2rem;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(124,58,237,0.13);
+      transition: background 0.2s, transform 0.2s;
+    }
+    .share-btn:hover {
+      background: linear-gradient(90deg, var(--gold) 0%, var(--purple) 100%);
+      transform: translateY(-2px) scale(1.04);
+    }
+    @media (max-width: 900px) {
+      .container {
+        max-width: 100vw;
+      }
+    }
+    @media (max-width: 600px) {
+      .container {
+        padding: 1.2rem 0.5rem 1rem 0.5rem;
+        margin: 1.2rem 0.2rem 1rem 0.2rem;
+        max-width: 100vw;
+      }
+      .header {
+        font-size: 1.3rem;
+        padding: 1.2rem 0.5rem 0.7rem 0.5rem;
+      }
+    }
+    @media (max-width: 500px) {
+      .container {
+        padding: 0.7rem 0.1rem 0.4rem 0.1rem;
+      }
+      .header {
+        font-size: 1.1rem;
+        padding: 0.7rem 0.1rem 0.4rem 0.1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">Today's Horoscope</div>
+  <div class="container">
+    <label for="sunSign">Select Sun Sign</label>
+    <select id="sunSign">
+      <option value="">-- Select --</option>
+      <option value="aries">Aries</option>
+      <option value="taurus">Taurus</option>
+      <option value="gemini">Gemini</option>
+      <option value="cancer">Cancer</option>
+      <option value="leo">Leo</option>
+      <option value="virgo">Virgo</option>
+      <option value="libra">Libra</option>
+      <option value="scorpio">Scorpio</option>
+      <option value="sagittarius">Sagittarius</option>
+      <option value="capricorn">Capricorn</option>
+      <option value="aquarius">Aquarius</option>
+      <option value="pisces">Pisces</option>
+    </select>
+    <div id="horoscopeCard" class="horoscope-card" style="display:none;"></div>
+    <button class="share-btn" id="shareBtn" style="display:none;"><i class="fas fa-share-alt"></i> Share</button>
+  </div>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+    // You may want to import config from config.js in real app
+    const firebaseConfig = {
+      apiKey: "AIzaSyAofTel__Ne7wI_afRNw298Odk670eSmak",
+      authDomain: "astrotalk-46cd1.firebaseapp.com",
+      projectId: "astrotalk-46cd1",
+      storageBucket: "astrotalk-46cd1.firebasestorage.app",
+      messagingSenderId: "527903824485",
+      appId: "1:527903824485:web:2266df9497447de9b1048c",
+      measurementId: "G-K30DRSW9CK"
+    };
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // Helper to get today's date in YYYY-MM-DD
+    function todayStr() {
+      const d = new Date();
+      return d.toISOString().slice(0,10);
+    }
+
+    const sunSignSelect = document.getElementById('sunSign');
+    const card = document.getElementById('horoscopeCard');
+    const shareBtn = document.getElementById('shareBtn');
+
+    sunSignSelect.addEventListener('change', async function() {
+      const sign = sunSignSelect.value;
+      card.style.display = 'none';
+      shareBtn.style.display = 'none';
+      if (!sign) return;
+      card.innerHTML = "Loading...";
+      card.style.display = 'block';
+      // Fetch from Firestore: horoscope/today/{sign}
+      try {
+        const docRef = doc(db, "horoscope", todayStr(), sign);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          const h = docSnap.data();
+          card.innerHTML = `
+            <div class="horoscope-title">${sign.charAt(0).toUpperCase() + sign.slice(1)} - ${todayStr()}</div>
+            <div class="horoscope-section"><span class="horoscope-label">Summary:</span> ${h.summary || "-"}</div>
+            <div class="horoscope-section"><span class="horoscope-label">Love:</span> ${h.love || "-"}</div>
+            <div class="horoscope-section"><span class="horoscope-label">Health:</span> ${h.health || "-"}</div>
+            <div class="horoscope-section"><span class="horoscope-label">Career:</span> ${h.career || "-"}</div>
+            <div class="lucky">
+              <span><b>Lucky Number:</b> ${h.luckyNumber || "-"}</span>
+              <span><b>Lucky Color:</b> ${h.luckyColor || "-"}</span>
+            </div>
+          `;
+          shareBtn.style.display = 'block';
+          shareBtn.onclick = function() {
+            const text = `Vedastro - Today's Horoscope for ${sign.charAt(0).toUpperCase() + sign.slice(1)} (${todayStr()}):\n\nSummary: ${h.summary || "-"}\nLove: ${h.love || "-"}\nHealth: ${h.health || "-"}\nCareer: ${h.career || "-"}\nLucky Number: ${h.luckyNumber || "-"}\nLucky Color: ${h.luckyColor || "-"}`;
+            const url = encodeURIComponent(window.location.href);
+            const msg = encodeURIComponent(text);
+            if (navigator.share) {
+              navigator.share({ title: "Vedastro Horoscope", text });
+            } else {
+              // WhatsApp fallback
+              window.open(`https://wa.me/?text=${msg}`, "_blank");
+            }
+          };
+        } else {
+          card.innerHTML = "No horoscope found for today.";
+        }
+      } catch (e) {
+        card.innerHTML = "Error loading horoscope.";
+      }
+    });
+  </script>
+</body>
+</html>

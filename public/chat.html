@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Chat - Vedastro</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <style>
+    :root {
+      --purple: #7c3aed;
+      --gold: #ffd700;
+      --bg: #f8fafc;
+      --bg2: #ede9fe;
+      --text: #222;
+      --radius: 1.2rem;
+      --shadow: 0 4px 18px rgba(124,58,237,0.09);
+    }
+    body {
+      margin: 0;
+      font-family: 'Montserrat', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+    #navbar {
+      margin-bottom: 1rem;
+    }
+    .chat-container {
+      max-width: 500px;
+      margin: 2rem auto;
+      background: #fff;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 1.5rem 1rem 1rem 1rem;
+      display: flex;
+      flex-direction: column;
+      min-height: 500px;
+    }
+    .chat-header {
+      text-align: center;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--purple);
+      margin-bottom: 1rem;
+    }
+    .user-select-row {
+      display: flex;
+      gap: 0.7rem;
+      margin-bottom: 1rem;
+      justify-content: center;
+      align-items: center;
+    }
+    .user-select-row select {
+      padding: 0.5rem;
+      border-radius: 0.7rem;
+      border: 1.5px solid var(--gold);
+      font-size: 1rem;
+      background: #f3f0ff;
+      color: #5b21b6;
+      outline: none;
+    }
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      background: var(--bg2);
+      border-radius: 1rem;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      min-height: 200px;
+      max-height: 300px;
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+    }
+    .chat-message {
+      display: flex;
+      flex-direction: column;
+      max-width: 75%;
+      padding: 0.7rem 1rem;
+      border-radius: 1rem;
+      background: #ede9fe;
+      color: #222;
+      box-shadow: 0 2px 8px rgba(124,58,237,0.07);
+      font-size: 1rem;
+      word-break: break-word;
+    }
+    .chat-message.me {
+      align-self: flex-end;
+      background: var(--purple);
+      color: #fff;
+    }
+    .chat-message .meta {
+      font-size: 0.85rem;
+      color: #b5b5b5;
+      margin-top: 0.2rem;
+      text-align: right;
+    }
+    .chat-input-row {
+      display: flex;
+      gap: 0.7rem;
+      margin-top: 0.5rem;
+    }
+    .chat-input-row input {
+      flex: 1;
+      padding: 0.7rem;
+      border: 1.5px solid var(--gold);
+      border-radius: 0.7rem;
+      font-size: 1rem;
+      background: #f3f0ff;
+      color: #5b21b6;
+      outline: none;
+    }
+    .chat-input-row button {
+      background: var(--purple);
+      color: #fff;
+      border: none;
+      border-radius: 0.7rem;
+      padding: 0.7rem 1.2rem;
+      font-size: 1rem;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.18s;
+    }
+    .chat-input-row button:hover {
+      background: var(--gold);
+      color: var(--purple);
+    }
+    .loading {
+      text-align: center;
+      color: #7c3aed;
+      margin: 2rem 0;
+    }
+    .nav-links {
+      display: flex;
+      justify-content: space-around;
+      padding: 0.7rem 0;
+      background: #fff;
+      border-top: 1px solid #eaeaea;
+      position: relative;
+      z-index: 10;
+    }
+    .nav-links a {
+      color: var(--purple);
+      font-size: 1.2rem;
+      transition: color 0.18s;
+    }
+    .nav-links a:hover {
+      color: var(--gold);
+    }
+    @media (max-width: 600px) {
+      .chat-container {
+        padding: 1rem 0.2rem 0.7rem 0.2rem;
+        margin: 1.2rem 0.2rem 1rem 0.2rem;
+      }
+      .chat-header {
+        font-size: 1.1rem;
+      }
+      .chat-messages {
+        padding: 0.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="navbar">
+    <div class="nav-links">
+      <a href="index.html" title="Home"><i class="fa-solid fa-house"></i></a>
+      <a href="kundli.html" title="Kundli"><i class="fa-solid fa-om"></i></a>
+      <a href="numerology.html" title="Numerology"><i class="fa-solid fa-hashtag"></i></a>
+      <a href="blog.html" title="Blog"><i class="fa-solid fa-blog"></i></a>
+      <a href="remedies.html" title="Remedies"><i class="fa-solid fa-leaf"></i></a>
+    </div>
+  </div>
+  <div class="chat-container">
+    <div class="chat-header">Chat</div>
+    <div class="user-select-row" id="userSelectRow">
+      <span>Chat with:</span>
+      <select id="userSelect"></select>
+    </div>
+    <div class="chat-messages" id="chatMessages"></div>
+    <form class="chat-input-row" id="chatForm" autocomplete="off">
+      <input type="text" id="chatInput" placeholder="Type your message..." required autocomplete="off">
+      <button type="submit"><i class="fa-solid fa-paper-plane"></i></button>
+    </form>
+    <div class="loading" id="loading" style="display:none;">Loading...</div>
+  </div>
+  <script src="js/navbar.js"></script>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+    import { getFirestore, collection, addDoc, query, orderBy, where, onSnapshot, getDocs } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+    // Firebase config
+    const firebaseConfig = {
+      apiKey: "AIzaSyAofTel__Ne7wI_afRNw298Odk670eSmak",
+      authDomain: "astrotalk-46cd1.firebaseapp.com",
+      projectId: "astrotalk-46cd1",
+      storageBucket: "astrotalk-46cd1.firebasestorage.app",
+      messagingSenderId: "527903824485",
+      appId: "1:527903824485:web:2266df9497447de9b1048c",
+      measurementId: "G-K30DRSW9CK"
+    };
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth(app);
+
+    let currentUser = null;
+    let users = [];
+    let selectedUserId = null;
+    let unsubscribeChat = null;
+
+    const userSelect = document.getElementById('userSelect');
+    const chatMessages = document.getElementById('chatMessages');
+    const chatForm = document.getElementById('chatForm');
+    const chatInput = document.getElementById('chatInput');
+    const loading = document.getElementById('loading');
+    const userSelectRow = document.getElementById('userSelectRow');
+
+    // Load users for chat selection (excluding self)
+    async function loadUsers(myUid) {
+      users = [];
+      userSelect.innerHTML = '';
+      const usersSnap = await getDocs(collection(db, "users"));
+      usersSnap.forEach(doc => {
+        if (doc.id !== myUid) {
+          const d = doc.data();
+          users.push({ uid: doc.id, name: d.name || d.email || "User" });
+        }
+      });
+      if (users.length === 0) {
+        userSelect.innerHTML = '<option>No users found</option>';
+        userSelect.disabled = true;
+        chatForm.style.display = 'none';
+        return;
+      }
+      users.forEach(u => {
+        const opt = document.createElement('option');
+        opt.value = u.uid;
+        opt.textContent = u.name;
+        userSelect.appendChild(opt);
+      });
+      selectedUserId = users[0].uid;
+      userSelect.disabled = false;
+      chatForm.style.display = '';
+      listenForMessages();
+    }
+
+    // Listen for chat messages between currentUser and selectedUserId
+    function listenForMessages() {
+      if (unsubscribeChat) unsubscribeChat();
+      chatMessages.innerHTML = '';
+      if (!selectedUserId || !currentUser) return;
+      // Query for chats where (sender==me && receiver==them) OR (sender==them && receiver==me)
+      const q = query(
+        collection(db, "chats"),
+        where("participants", "array-contains", currentUser.uid),
+        orderBy("timestamp", "asc")
+      );
+      unsubscribeChat = onSnapshot(q, snap => {
+        chatMessages.innerHTML = '';
+        snap.forEach(doc => {
+          const msg = doc.data();
+          // Only show messages between these two users
+          if (
+            (msg.sender === currentUser.uid && msg.receiver === selectedUserId) ||
+            (msg.sender === selectedUserId && msg.receiver === currentUser.uid)
+          ) {
+            const div = document.createElement('div');
+            div.className = "chat-message" + (msg.sender === currentUser.uid ? " me" : "");
+            div.innerHTML = `
+              <span>${msg.text}</span>
+              <span class="meta">${msg.sender === currentUser.uid ? "Me" : users.find(u => u.uid === msg.sender)?.name || "User"} &middot; ${msg.timestamp ? new Date(msg.timestamp.seconds ? msg.timestamp.seconds * 1000 : msg.timestamp).toLocaleTimeString() : ""}</span>
+            `;
+            chatMessages.appendChild(div);
+          }
+        });
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      });
+    }
+
+    // Handle user selection change
+    userSelect.addEventListener('change', function() {
+      selectedUserId = this.value;
+      listenForMessages();
+    });
+
+    // Send message
+    chatForm.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const text = chatInput.value.trim();
+      if (!text || !selectedUserId || !currentUser) return;
+      await addDoc(collection(db, "chats"), {
+        sender: currentUser.uid,
+        receiver: selectedUserId,
+        participants: [currentUser.uid, selectedUserId],
+        text,
+        timestamp: new Date()
+      });
+      chatInput.value = '';
+    });
+
+    // Auth state
+    onAuthStateChanged(auth, async user => {
+      if (!user) {
+        loading.style.display = '';
+        loading.textContent = "Please login to use chat.";
+        userSelectRow.style.display = 'none';
+        chatForm.style.display = 'none';
+        return;
+      }
+      loading.style.display = 'none';
+      userSelectRow.style.display = '';
+      currentUser = user;
+      await loadUsers(user.uid);
+    });
+  </script>
+</body>
+</html>

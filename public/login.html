@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Login - Vedastro</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <style>
+    html, body {
+      box-sizing: border-box;
+      width: 100%;
+      min-width: 0;
+      min-height: 100vh;
+    }
+    *, *:before, *:after {
+      box-sizing: inherit;
+    }
+    body {
+      margin: 0;
+      font-family: 'Montserrat', sans-serif;
+      background: #f8fafc;
+      color: #222;
+      width: 100%;
+      min-width: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .login-container {
+      background: #fff;
+      border-radius: 1.2rem;
+      box-shadow: 0 4px 18px rgba(124,58,237,0.09);
+      padding: 2.2rem 1.5rem 1.5rem 1.5rem;
+      max-width: 350px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .login-container h2 {
+      text-align: center;
+      color: #7c3aed;
+      margin-bottom: 1.2rem;
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+    .login-form label {
+      display: block;
+      margin-bottom: 0.3rem;
+      font-weight: 600;
+      color: #7c3aed;
+    }
+    .login-form input[type="email"],
+    .login-form input[type="password"] {
+      width: 100%;
+      padding: 0.7rem;
+      border: 1.5px solid #ffd700;
+      border-radius: 0.7rem;
+      margin-bottom: 1.1rem;
+      font-size: 1rem;
+      background: #f3f0ff;
+      color: #5b21b6;
+      box-sizing: border-box;
+      outline: none;
+      transition: border 0.2s;
+    }
+    .login-form input:focus {
+      border: 2px solid #7c3aed;
+      background: #ede9fe;
+    }
+    .login-form button {
+      width: 100%;
+      background: linear-gradient(90deg, #ffd700 0%, #7c3aed 100%);
+      color: #fff;
+      font-size: 1.1rem;
+      font-weight: 700;
+      padding: 0.9rem 0;
+      border: none;
+      border-radius: 2rem;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(124,58,237,0.13);
+      margin-bottom: 0.7rem;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .login-form button:hover {
+      background: linear-gradient(90deg, #7c3aed 0%, #ffd700 100%);
+      transform: translateY(-2px) scale(1.03);
+    }
+    .google-btn {
+      width: 100%;
+      background: #fff;
+      color: #7c3aed;
+      border: 2px solid #7c3aed;
+      font-weight: 600;
+      border-radius: 2rem;
+      padding: 0.7rem 0;
+      margin-bottom: 0.7rem;
+      cursor: pointer;
+      transition: background 0.18s, color 0.18s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.7rem;
+    }
+    .google-btn:hover {
+      background: #ede9fe;
+      color: #222;
+    }
+    .forgot-link, .signup-link {
+      display: block;
+      text-align: right;
+      margin-bottom: 0.7rem;
+      color: #7c3aed;
+      text-decoration: underline;
+      font-size: 0.98rem;
+      cursor: pointer;
+    }
+    .signup-link {
+      text-align: center;
+      margin-top: 1.2rem;
+    }
+    .error-msg {
+      color: #e53935;
+      text-align: center;
+      margin-bottom: 0.7rem;
+      font-size: 0.98rem;
+    }
+    .success-msg {
+      color: #388e3c;
+      text-align: center;
+      margin-bottom: 0.7rem;
+      font-size: 0.98rem;
+    }
+    @media (max-width: 600px) {
+      .login-container {
+        padding: 1.2rem 0.5rem 1rem 0.5rem;
+        margin: 1.2rem 0.2rem 1rem 0.2rem;
+        max-width: 100vw;
+      }
+    }
+    @media (max-width: 400px) {
+      .login-container {
+        padding: 0.7rem 0.1rem 0.4rem 0.1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <h2>Sign In</h2>
+    <form class="login-form" id="loginForm" autocomplete="off">
+      <label for="email">Email</label>
+      <input type="email" id="email" required>
+      <label for="password">Password</label>
+      <input type="password" id="password" required>
+      <button type="submit">Sign In</button>
+      <div class="forgot-link" id="forgotLink">Forgot Password?</div>
+      <button type="button" class="google-btn" id="googleBtn">
+        <i class="fab fa-google"></i> Sign in with Google
+      </button>
+      <div class="error-msg" id="errorMsg"></div>
+      <div class="success-msg" id="successMsg"></div>
+      <div class="signup-link">
+        New user? <a href="signup.html">Create an account</a>
+      </div>
+    </form>
+  </div>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+    // You may want to import config from config.js in real app
+    const firebaseConfig = {
+      apiKey: "AIzaSyAofTel__Ne7wI_afRNw298Odk670eSmak",
+      authDomain: "astrotalk-46cd1.firebaseapp.com",
+      projectId: "astrotalk-46cd1",
+      storageBucket: "astrotalk-46cd1.firebasestorage.app",
+      messagingSenderId: "527903824485",
+      appId: "1:527903824485:web:2266df9497447de9b1048c",
+      measurementId: "G-K30DRSW9CK"
+    };
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    const loginForm = document.getElementById('loginForm');
+    const errorMsg = document.getElementById('errorMsg');
+    const successMsg = document.getElementById('successMsg');
+    const forgotLink = document.getElementById('forgotLink');
+    const googleBtn = document.getElementById('googleBtn');
+
+    loginForm.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      errorMsg.textContent = "";
+      successMsg.textContent = "";
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        successMsg.textContent = "Login successful! Redirecting...";
+        setTimeout(() => window.location.href = "index.html", 1200);
+      } catch (err) {
+        errorMsg.textContent = err.message.replace("Firebase: ", "");
+      }
+    });
+
+    forgotLink.onclick = async function() {
+      errorMsg.textContent = "";
+      successMsg.textContent = "";
+      const email = document.getElementById('email').value.trim();
+      if (!email) {
+        errorMsg.textContent = "Enter your email to reset password.";
+        return;
+      }
+      try {
+        await sendPasswordResetEmail(auth, email);
+        successMsg.textContent = "Password reset email sent!";
+      } catch (err) {
+        errorMsg.textContent = err.message.replace("Firebase: ", "");
+      }
+    };
+
+    googleBtn.onclick = async function() {
+      errorMsg.textContent = "";
+      successMsg.textContent = "";
+      const provider = new GoogleAuthProvider();
+      try {
+        await signInWithPopup(auth, provider);
+        successMsg.textContent = "Login successful! Redirecting...";
+        setTimeout(() => window.location.href = "index.html", 1200);
+      } catch (err) {
+        errorMsg.textContent = err.message.replace("Firebase: ", "");
+      }
+    };
+  </script>
+</body>
+</html>

@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Vedastro - Astrology for You</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <style>
+    html, body {
+      box-sizing: border-box;
+      width: 100%;
+      min-width: 0;
+      min-height: 100vh;
+    }
+    *, *:before, *:after {
+      box-sizing: inherit;
+    }
+    body {
+      margin: 0;
+      font-family: 'Montserrat', sans-serif;
+      background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
+      color: #222;
+      width: 100%;
+      min-width: 0;
+      min-height: 100vh;
+      padding-bottom: 70px; /* Reserve space for downbar */
+    }
+    /* Navbar */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5rem 1rem;
+      background: rgba(255,255,255,0.95);
+      box-shadow: 0 2px 12px rgba(60,60,120,0.07);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      width: 100%;
+      max-width: 100vw;
+      min-height: 44px;
+    }
+    .logo {
+      font-size: 1.7rem;
+      font-weight: bold;
+      color: #6d28d9;
+      letter-spacing: 1px;
+      white-space: nowrap;
+    }
+    .header-title {
+      font-size: 1.15rem;
+      font-weight: bold;
+      color: #6d28d9;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+      flex: 1;
+      text-align: left;
+    }
+    .header-icons {
+      display: flex;
+      align-items: center;
+      gap: 1.1rem;
+    }
+    .header-icon {
+      color: #6d28d9;
+      font-size: 1.25rem;
+      cursor: pointer;
+      border-radius: 50%;
+      background: #ede9fe;
+      padding: 0.35rem 0.5rem;
+      box-shadow: 0 2px 8px rgba(109,40,217,0.07);
+      transition: background 0.2s, color 0.2s, transform 0.2s;
+      margin-left: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .header-icon:hover {
+      background: #c7d2fe;
+      color: #5b21b6;
+      transform: scale(1.08);
+    }
+    /* Hero */
+    .hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 60vh;
+      text-align: center;
+      background: linear-gradient(120deg, #ede9fe 0%, #f3f4f6 100%);
+      border-radius: 0 0 2rem 2rem;
+      box-shadow: 0 8px 32px rgba(109,40,217,0.09);
+      margin-bottom: 2rem;
+      padding: 3rem 1rem 2rem 1rem;
+      width: 100%;
+      max-width: 100vw;
+    }
+    .hero h1 {
+      font-size: 2.7rem;
+      font-weight: 700;
+      color: #6d28d9;
+      margin-bottom: 0.7rem;
+      word-break: break-word;
+    }
+    .hero p {
+      font-size: 1.2rem;
+      color: #555;
+      margin-bottom: 1.5rem;
+      max-width: 600px;
+    }
+    .cta-btn {
+      background: linear-gradient(90deg, #a78bfa 0%, #6d28d9 100%);
+      color: #fff;
+      font-size: 1.1rem;
+      font-weight: 600;
+      padding: 0.9rem 2.2rem;
+      border: none;
+      border-radius: 2rem;
+      box-shadow: 0 4px 16px rgba(109,40,217,0.13);
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+      width: 100%;
+      max-width: 320px;
+    }
+    .cta-btn:hover {
+      background: linear-gradient(90deg, #6d28d9 0%, #a78bfa 100%);
+      transform: translateY(-2px) scale(1.04);
+    }
+    /* Features */
+    .features {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1.5rem;
+      margin: 2rem auto 3rem auto;
+      max-width: 900px;
+      width: 100%;
+    }
+    .feature-card {
+      background: #fff;
+      border-radius: 1.2rem;
+      box-shadow: 0 4px 18px rgba(109,40,217,0.09);
+      padding: 2rem 1.5rem;
+      min-width: 160px;
+      max-width: 180px;
+      flex: 1 1 160px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: transform 0.18s, box-shadow 0.18s;
+      cursor: pointer;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .feature-card:hover {
+      transform: translateY(-6px) scale(1.04);
+      box-shadow: 0 8px 32px rgba(109,40,217,0.13);
+      background: #ede9fe;
+    }
+    .feature-icon {
+      font-size: 2.4rem;
+      margin-bottom: 0.7rem;
+    }
+    .feature-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #6d28d9;
+      margin-bottom: 0.2rem;
+      text-align: center;
+    }
+    /* Testimonials */
+    .testimonials-section {
+      background: linear-gradient(120deg, #ede9fe 0%, #f3f4f6 100%);
+      border-radius: 2rem;
+      margin: 2rem auto 2rem auto;
+      max-width: 900px;
+      width: 100%;
+      padding: 2.5rem 1rem;
+      box-shadow: 0 4px 18px rgba(109,40,217,0.07);
+      box-sizing: border-box;
+    }
+    .testimonials-slider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+      width: 100%;
+    }
+    .testimonial-card {
+      background: #fff;
+      border-radius: 1.2rem;
+      box-shadow: 0 4px 18px rgba(109,40,217,0.09);
+      padding: 1.5rem 1.2rem;
+      max-width: 320px;
+      min-width: 220px;
+      text-align: center;
+      transition: box-shadow 0.18s;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .testimonial-card .user-img {
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 0.7rem;
+      border: 2px solid #a78bfa;
+    }
+    .testimonial-card .user-name {
+      font-weight: 600;
+      color: #6d28d9;
+      margin-bottom: 0.3rem;
+    }
+    .testimonial-card .user-text {
+      font-size: 1rem;
+      color: #444;
+      margin-bottom: 0.2rem;
+    }
+    .slider-btn {
+      background: #ede9fe;
+      border: none;
+      border-radius: 50%;
+      width: 38px;
+      height: 38px;
+      font-size: 1.2rem;
+      color: #6d28d9;
+      cursor: pointer;
+      transition: background 0.18s;
+      min-width: 38px;
+      min-height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .slider-btn:hover {
+      background: #c7d2fe;
+    }
+    /* Footer */
+    footer {
+      background: #ede9fe;
+      border-radius: 2rem 2rem 0 0;
+      padding: 2rem 1rem 1.2rem 1rem;
+      margin-top: 2rem;
+      box-shadow: 0 -4px 18px rgba(109,40,217,0.07);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .footer-links, .footer-social {
+      display: flex;
+      gap: 1.2rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .footer-links a, .footer-social a {
+      color: #6d28d9;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 1rem;
+      transition: color 0.18s;
+    }
+    .footer-links a:hover, .footer-social a:hover {
+      color: #a78bfa;
+    }
+    .footer-about {
+      color: #444;
+      font-size: 0.98rem;
+      max-width: 320px;
+      margin-bottom: 0.7rem;
+    }
+    /* Responsive */
+    @media (max-width: 1100px) {
+      .features, .testimonials-slider, footer {
+        flex-direction: column;
+        align-items: center;
+        max-width: 100vw;
+      }
+      .features {
+        gap: 1rem;
+      }
+      .testimonials-slider {
+        gap: 1rem;
+      }
+      footer {
+        gap: 1rem;
+      }
+    }
+    @media (max-width: 900px) {
+      .features, .testimonials-slider, footer {
+        flex-direction: column;
+        align-items: center;
+        max-width: 100vw;
+      }
+      .features {
+        gap: 1rem;
+      }
+      .testimonials-slider {
+        gap: 1rem;
+      }
+      footer {
+        gap: 1rem;
+      }
+    }
+    @media (max-width: 700px) {
+      nav {
+        flex-direction: column;
+        gap: 0.7rem;
+        padding: 1rem 0.7rem;
+      }
+      .hero h1 {
+        font-size: 2rem;
+      }
+      .feature-card {
+        min-width: 120px;
+        max-width: 100vw;
+        padding: 1.2rem 0.7rem;
+      }
+      .testimonials-section {
+        padding: 1.2rem 0.2rem;
+      }
+      footer {
+        padding: 1.2rem 0.2rem 0.7rem 0.2rem;
+      }
+    }
+    @media (max-width: 500px) {
+      .hero h1 {
+        font-size: 1.3rem;
+      }
+      .feature-card {
+        padding: 0.7rem 0.3rem;
+      }
+      .testimonials-section {
+        padding: 0.7rem 0.1rem;
+      }
+      footer {
+        padding: 0.7rem 0.1rem 0.4rem 0.1rem;
+      }
+    }
+    /* --- Bottom Navbar Fix --- */
+    #navbar {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100vw;
+      max-width: 100vw;
+      z-index: 1000;
+      background: #fff;
+      box-shadow: 0 -2px 12px rgba(124,58,237,0.09);
+      border-top-left-radius: 1.2rem;
+      border-top-right-radius: 1.2rem;
+      min-height: 56px;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 0 10px;
+    }
+    #navbar .nav-links, #navbar .nav-user, #navbar .logo {
+      margin: 0 !important;
+      padding: 0 !important;
+      box-shadow: none !important;
+      background: none !important;
+      position: static !important;
+    }
+    #navbar .nav-links {
+      display: flex !important;
+      gap: 1.2rem !important;
+      flex: 1 1 auto !important;
+      justify-content: center !important;
+      align-items: center !important;
+    }
+    #navbar .nav-links a {
+      padding: 0.5rem 0.8rem !important;
+      font-size: 1.1rem !important;
+      border-radius: 1.2rem !important;
+      background: none !important;
+      color: #7c3aed !important;
+      font-weight: 600 !important;
+      transition: background 0.18s, color 0.18s;
+      display: flex;
+      align-items: center;
+      gap: 0.4em;
+    }
+    #navbar .nav-links a:hover, #navbar .nav-links a.active {
+      background: #ede9fe !important;
+      color: #5b21b6 !important;
+    }
+    #navbar .nav-user {
+      font-size: 1.3rem !important;
+      color: #7c3aed !important;
+      background: #ede9fe !important;
+      border-radius: 50% !important;
+      padding: 0.4rem 0.6rem !important;
+      margin-left: 0.7rem !important;
+      transition: background 0.2s;
+    }
+    #navbar .nav-user:hover {
+      background: #c7d2fe !important;
+    }
+    @media (max-width: 700px) {
+      #navbar {
+        min-height: 48px;
+        padding: 0 2px;
+      }
+      #navbar .nav-links a {
+        font-size: 0.98rem !important;
+        padding: 0.4rem 0.5rem !important;
+      }
+    }
+    /* --- Ensure main content is not overlapped by navbar --- */
+    body {
+      /* ...existing code... */
+      padding-bottom: 76px !important; /* slightly more than navbar height */
+    }
+    @media (max-width: 700px) {
+      body {
+        padding-bottom: 60px !important;
+      }
+    }
+    /* Feed Navigation */
+    .feed-nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1.5rem;
+      margin: 2rem auto 3rem auto;
+      max-width: 900px;
+      width: 100%;
+      margin-bottom: 1.2rem;
+    }
+    .feed-nav .feature-card {
+      min-width: 140px;
+      max-width: 180px;
+      flex: 1 1 140px;
+      cursor: pointer;
+      transition: transform 0.18s, box-shadow 0.18s, background 0.18s;
+      text-decoration: none;
+      color: #6d28d9;
+    }
+    .feed-nav .feature-card:hover, .feed-nav .feature-card:focus {
+      background: #ede9fe;
+      transform: translateY(-6px) scale(1.04);
+      color: #5b21b6;
+      outline: none;
+    }
+    .feed-nav .feature-icon i {
+      font-size: 2.1rem;
+      color: #a78bfa;
+    }
+    /* Add styles for the 3 icon row */
+    .feed-bottom-row {
+      display: flex;
+      justify-content: center;
+      gap: 2.2rem;
+      margin: 0.7rem 0 2.2rem 0;
+    }
+    .feed-bottom-row a {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+      color: #6d28d9;
+      font-size: 0.97rem;
+      font-weight: 600;
+      border-radius: 1rem;
+      padding: 0.7rem 1.1rem;
+      min-width: 70px;
+      transition: color 0.2s, background 0.2s, transform 0.2s;
+    }
+    .feed-bottom-row a i {
+      font-size: 1.5rem;
+      margin-bottom: 0.2rem;
+    }
+    .feed-bottom-row a:hover, .feed-bottom-row a:focus {
+      background: #ede9fe;
+      color: #5b21b6;
+      outline: none;
+      transform: scale(1.08);
+    }
+    @media (max-width: 700px) {
+      .feed-bottom-row {
+        gap: 1.1rem;
+      }
+      .feed-bottom-row a {
+        font-size: 0.89rem;
+        padding: 0.5rem 0.5rem;
+        min-width: 54px;
+      }
+      .feed-bottom-row a i {
+        font-size: 1.1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header with reduced size and icons -->
+  <nav>
+    <span class="header-title">Astro Milan</span>
+    <div class="header-icons">
+      <a href="notification.html" title="Notifications" class="header-icon"><i class="fa-solid fa-bell"></i></a>
+      <a href="chat.html" title="Chat" class="header-icon"><i class="fa-solid fa-comments"></i></a>
+      <a href="profile.html" title="Profile" class="header-icon"><i class="fa-solid fa-user"></i></a>
+    </div>
+  </nav>
+  <!-- Hero Section -->
+  <section class="hero">
+    <h1>Welcome to Astro Milan</h1>
+    <p>Your trusted guide for personalized astrology, kundli, matchmaking, and more. Discover your destiny with ancient wisdom and modern technology.</p>
+    <button class="cta-btn">Generate Free Kundli</button>
+  </section>
+  <!-- Features/Feed Navigation Section -->
+  <section class="features feed-nav">
+    <!-- ...existing feed icons... -->
+    <a href="match.html" class="feature-card" title="Match Making">
+      <div class="feature-icon"><i class="fa-solid fa-heart"></i></div>
+      <div class="feature-title">Match Making</div>
+      <div class="feature-desc">Check compatibility for marriage & love.</div>
+    </a>
+    <a href="kundli.html" class="feature-card" title="Kundli Generator">
+      <div class="feature-icon"><i class="fa-solid fa-om"></i></div>
+      <div class="feature-title">Kundli Generator</div>
+      <div class="feature-desc">Create your detailed birth chart instantly.</div>
+    </a>
+    <a href="horoscope.html" class="feature-card" title="Daily Horoscope">
+      <div class="feature-icon"><i class="fa-solid fa-sun"></i></div>
+      <div class="feature-title">Daily Horoscope</div>
+      <div class="feature-desc">Get daily predictions for your sign.</div>
+    </a>
+    <a href="ask.html" class="feature-card" title="Ask Astrologer">
+      <div class="feature-icon"><i class="fa-solid fa-comments"></i></div>
+      <div class="feature-title">Ask Astrologer</div>
+      <div class="feature-desc">Consult with expert astrologers online.</div>
+    </a>
+    <a href="numerology.html" class="feature-card" title="Numerology">
+      <div class="feature-icon"><i class="fa-solid fa-hashtag"></i></div>
+      <div class="feature-title">Numerology</div>
+      <div class="feature-desc">Reveal secrets with your lucky numbers.</div>
+    </a>
+  </section>
+  <!-- Add 3 icon row for About, Contact, Privacy -->
+  <div class="feed-bottom-row">
+    <a href="about.html" title="About">
+      <i class="fa-solid fa-info-circle"></i>
+      <span>About</span>
+    </a>
+    <a href="contact.html" title="Contact">
+      <i class="fa-solid fa-envelope"></i>
+      <span>Contact</span>
+    </a>
+    <a href="privacy.html" title="Privacy">
+      <i class="fa-solid fa-user-shield"></i>
+      <span>Privacy</span>
+    </a>
+  </div>
+  <!-- Testimonials Slider -->
+  <section class="testimonials-section">
+    <h2 style="text-align:center; color:#6d28d9; margin-bottom:1.2rem;">What Our Users Say</h2>
+    <div class="testimonials-slider">
+      <button class="slider-btn" id="prevTestimonial"><i class="fas fa-chevron-left"></i></button>
+      <div class="testimonial-card" id="testimonialCard">
+        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="User" class="user-img">
+        <div class="user-name" id="testimonialName">Priya Sharma</div>
+        <div class="user-text" id="testimonialText">"Vedastro's kundli generator is so accurate and easy to use. Highly recommended!"</div>
+      </div>
+      <button class="slider-btn" id="nextTestimonial"><i class="fas fa-chevron-right"></i></button>
+    </div>
+  </section>
+  
+    <div class="footer-social">
+      <a href="#"><i class="fab fa-facebook fa-lg"></i></a>
+      <a href="#"><i class="fab fa-twitter fa-lg"></i></a>
+      <a href="#"><i class="fab fa-instagram fa-lg"></i></a>
+      <a href="#"><i class="fab fa-youtube fa-lg"></i></a>
+    </div>
+  </footer>
+  <!-- Bottom Navbar -->
+  <div id="navbar">
+    <div class="nav-links">
+      <a href="index.html" title="Home"><i class="fa-solid fa-house"></i></a>
+      <a href="kundli.html" title="Kundli"><i class="fa-solid fa-om"></i></a>
+      <a href="numerology.html" title="Numerology"><i class="fa-solid fa-hashtag"></i></a>
+      <a href="blog.html" title="Blog"><i class="fa-solid fa-blog"></i></a>
+      <a href="remedies.html" title="Remedies"><i class="fa-solid fa-leaf"></i></a>
+    </div>
+  </div>
+  <!-- Firebase Auth & JS -->
+  <script type="module">
+    // Import Firebase Auth
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+    // Firebase config
+    const firebaseConfig = {
+      apiKey: "AIzaSyAofTel__Ne7wI_afRNw298Odk670eSmak",
+      authDomain: "astrotalk-46cd1.firebaseapp.com",
+      projectId: "astrotalk-46cd1",
+      storageBucket: "astrotalk-46cd1.firebasestorage.app",
+      messagingSenderId: "527903824485",
+      appId: "1:527903824485:web:2266df9497447de9b1048c",
+      measurementId: "G-K30DRSW9CK"
+    };
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // Testimonials slider logic
+    const testimonials = [
+      {
+        img: "https://randomuser.me/api/portraits/women/44.jpg",
+        name: "Priya Sharma",
+        text: "\"Vedastro's kundli generator is so accurate and easy to use. Highly recommended!\""
+      },
+      {
+        img: "https://randomuser.me/api/portraits/men/32.jpg",
+        name: "Rahul Verma",
+        text: "\"The matchmaking feature helped us a lot. Thank you Vedastro!\""
+      },
+      {
+        img: "https://randomuser.me/api/portraits/women/68.jpg",
+        name: "Sneha Patel",
+        text: "\"I love checking my daily horoscope here. The predictions are spot on!\""
+      },
+      {
+        img: "https://randomuser.me/api/portraits/men/54.jpg",
+        name: "Amit Joshi",
+        text: "\"Consulting an astrologer was so easy and insightful. Great platform!\""
+      }
+    ];
+    let currentTestimonial = 0;
+    function showTestimonial(idx) {
+      const t = testimonials[idx];
+      document.getElementById('testimonialCard').querySelector('.user-img').src = t.img;
+      document.getElementById('testimonialName').textContent = t.name;
+      document.getElementById('testimonialText').textContent = t.text;
+    }
+    document.getElementById('prevTestimonial').onclick = () => {
+      currentTestimonial = (currentTestimonial - 1 + testimonials.length) % testimonials.length;
+      showTestimonial(currentTestimonial);
+    };
+    document.getElementById('nextTestimonial').onclick = () => {
+      currentTestimonial = (currentTestimonial + 1) % testimonials.length;
+      showTestimonial(currentTestimonial);
+    };
+    // Auto-slide every 7s
+    setInterval(() => {
+      currentTestimonial = (currentTestimonial + 1) % testimonials.length;
+      showTestimonial(currentTestimonial);
+    }, 7000);
+  </script>
+</body>
+</html>

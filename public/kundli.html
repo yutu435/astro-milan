@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Kundli Generator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #f9f6ef;
+      margin: 0;
+      padding: 0 0 80px 0;
+      color: #2d2d2d;
+    }
+    .container {
+      max-width: 700px;
+      margin: 2.5rem auto 1.5rem auto;
+      background: #fff;
+      border-radius: 1.2rem;
+      box-shadow: 0 4px 18px rgba(229,57,53,0.09);
+      padding: 2rem 1.5rem 1.5rem 1.5rem;
+    }
+    h2 {
+      text-align: center;
+      color: #e53935;
+      margin-bottom: 1.2rem;
+      font-size: 2rem;
+      font-weight: 700;
+    }
+    .form-group {
+      margin-bottom: 1.1rem;
+    }
+    label {
+      display: block;
+      margin-bottom: 0.3rem;
+      font-weight: 600;
+      color: #b71c1c;
+      letter-spacing: 0.5px;
+    }
+    input[type="text"], input[type="date"], input[type="time"], input[type="number"] {
+      width: 100%;
+      padding: 0.7rem;
+      border: 1.5px solid #ffd600;
+      border-radius: 0.7rem;
+      margin-bottom: 0.2rem;
+      font-size: 1rem;
+      background: #fffde7;
+      color: #b71c1c;
+      box-sizing: border-box;
+      outline: none;
+      transition: border 0.2s;
+    }
+    input[type="text"]:focus, input[type="date"]:focus, input[type="time"]:focus, input[type="number"]:focus {
+      border: 2px solid #e53935;
+      background: #fff9c4;
+    }
+    button {
+      width: 100%;
+      background: linear-gradient(90deg, #ffd600 0%, #e53935 100%);
+      color: #fff;
+      font-size: 1.1rem;
+      font-weight: 700;
+      padding: 0.9rem 0;
+      border: none;
+      border-radius: 2rem;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(229,57,53,0.13);
+      margin-top: 0.7rem;
+      transition: background 0.2s, transform 0.2s;
+    }
+    button:hover {
+      background: linear-gradient(90deg, #e53935 0%, #ffd600 100%);
+      transform: translateY(-2px) scale(1.03);
+    }
+    .kundli-section {
+      background: #fffde7;
+      border-radius: 1rem;
+      box-shadow: 0 2px 8px rgba(229,57,53,0.07);
+      padding: 1.2rem 1rem 1.2rem 1rem;
+      margin-bottom: 1.3rem;
+      border-left: 5px solid #ffd600;
+      overflow-x: auto;
+      max-width: 100%;
+    }
+    .kundli-section h3 {
+      margin-top: 0;
+      color: #e53935;
+      font-size: 1.18rem;
+      font-weight: 700;
+      margin-bottom: 0.7rem;
+      letter-spacing: 0.5px;
+    }
+    .kundli-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 0.5em;
+      min-width: 320px;
+      overflow-x: auto;
+      display: block;
+    }
+    .kundli-table th, .kundli-table td {
+      border: 1px solid #ffd600;
+      padding: 0.5em 0.7em;
+      text-align: left;
+      font-size: 1em;
+    }
+    .kundli-table th {
+      background: #fff9c4;
+      color: #b71c1c;
+    }
+    .kundli-table td {
+      background: #fff;
+      color: #2d2d2d;
+    }
+    .kundli-list {
+      margin: 0;
+      padding-left: 1.2em;
+    }
+    .kundli-list li {
+      margin-bottom: 0.4em;
+    }
+    .kundli-yoga-name {
+      font-weight: bold;
+      color: #b71c1c;
+    }
+    .kundli-yoga-desc {
+      color: #444;
+      font-size: 0.98em;
+    }
+    .kundli-dasha-period {
+      font-weight: bold;
+      color: #b71c1c;
+    }
+    .kundli-transit-planet {
+      font-weight: bold;
+      color: #b71c1c;
+    }
+    .kundli-divisional-title {
+      font-weight: bold;
+      color: #b71c1c;
+      margin-top: 0.5em;
+    }
+    @media (max-width: 900px) {
+      .container {
+        padding: 1.2rem 0.5rem 1rem 0.5rem;
+        margin: 1.2rem 0.2rem 1rem 0.2rem;
+        max-width: 100vw;
+      }
+      .kundli-section {
+        padding: 1rem 0.3rem 1rem 0.3rem;
+        font-size: 0.98em;
+      }
+      .kundli-table {
+        min-width: 220px;
+        font-size: 0.95em;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 0.5rem 0.1rem 0.5rem 0.1rem;
+        margin: 0.5rem 0.1rem 0.5rem 0.1rem;
+        max-width: 100vw;
+      }
+      .kundli-section {
+        padding: 0.7rem 0.1rem 0.7rem 0.1rem;
+        font-size: 0.93em;
+      }
+      .kundli-table {
+        min-width: 160px;
+        font-size: 0.9em;
+      }
+    }
+
+    /* Flex/grid for kundli sections on mobile */
+    @media (max-width: 700px) {
+      #kundliResult {
+        display: flex;
+        flex-direction: column;
+        gap: 0.7rem;
+      }
+      .kundli-section {
+        width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Kundli Generator</h2>
+    <form id="kundliForm" autocomplete="off">
+      <div class="form-group">
+        <label for="fullName">Full Name</label>
+        <input type="text" id="fullName" name="fullName" required placeholder="Enter your full name">
+      </div>
+      <div class="form-group">
+        <label for="dob">Date of Birth</label>
+        <input type="date" id="dob" name="dob" required>
+      </div>
+      <div class="form-group">
+        <label for="tob">Time of Birth</label>
+        <input type="time" id="tob" name="tob" required>
+      </div>
+      <div class="form-group">
+        <label for="pob">Place of Birth (optional)</label>
+        <input type="text" id="pob" name="pob" placeholder="Enter place of birth">
+      </div>
+      <div class="form-group">
+        <label for="lat">Latitude</label>
+        <input type="number" id="lat" name="lat" step="any" required placeholder="e.g. 28.6139">
+      </div>
+      <div class="form-group">
+        <label for="lon">Longitude</label>
+        <input type="number" id="lon" name="lon" step="any" required placeholder="e.g. 77.2090">
+      </div>
+      <div class="form-group">
+        <label for="timezone">Timezone (e.g. 5.5 for IST)</label>
+        <input type="number" id="timezone" name="timezone" step="any" value="5.5" required>
+      </div>
+      <button type="submit" id="generateKundliBtn">Generate Kundli</button>
+    </form>
+    <div id="kundliResult" style="display:none;">
+      <div class="kundli-section" id="chartSection">
+        <h3>Planetary Chart</h3>
+        <table class="kundli-table" id="chartTable"></table>
+      </div>
+      <div class="kundli-section" id="lagnaSection">
+        <h3>Lagna (Ascendant)</h3>
+        <div id="lagna"></div>
+      </div>
+      <div class="kundli-section" id="moonSignSection">
+        <h3>Moon Sign</h3>
+        <div id="moonSign"></div>
+      </div>
+      <div class="kundli-section" id="rashifalSection">
+        <h3>Rashifal</h3>
+        <div id="rashifal"></div>
+      </div>
+      <div class="kundli-section" id="yogasSection">
+        <h3>Yogas</h3>
+        <ul class="kundli-list" id="yogas"></ul>
+      </div>
+      <div class="kundli-section" id="dashaSection">
+        <h3>Dasha</h3>
+        <ul class="kundli-list" id="dasha"></ul>
+      </div>
+      <div class="kundli-section" id="transitSection">
+        <h3>Transit</h3>
+        <ul class="kundli-list" id="transit"></ul>
+      </div>
+      <div class="kundli-section" id="divisionalSection">
+        <h3>Divisional Charts</h3>
+        <div id="divisional"></div>
+      </div>
+    </div>
+    <div id="kundliActions" style="display:none; text-align:center; margin-top:1.5rem;">
+      <button id="saveKundliBtn" style="max-width:220px; margin:0 0.5rem 0.5rem 0;">💾 Save Kundli</button>
+      <button id="downloadKundliBtn" style="max-width:220px; margin:0 0.5rem 0.5rem 0;">⬇️ Download Kundli (PDF)</button>
+    </div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script src="kundli-pdf.js"></script>
+  <script src="kundli-fetch.js"></script>
+  <script>
+    document.getElementById('kundliForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const name = document.getElementById('fullName').value.trim();
+      const birthDate = document.getElementById('dob').value;
+      const birthTime = document.getElementById('tob').value;
+      const lat = parseFloat(document.getElementById('lat').value);
+      const lon = parseFloat(document.getElementById('lon').value);
+      const timezone = parseFloat(document.getElementById('timezone').value);
+      // Gender selection (add if you have a field, else default)
+      const gender = "NA";
+      // Build payload as flat structure
+      const payload = {
+        name,
+        birthDate,
+        birthTime,
+        lat,
+        lon,
+        timezone,
+        gender
+      };
+      // Show loading or disable button if needed
+      try {
+        const res = await fetch('/api/kundli', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        // ...existing code to display kundli result...
+        // Show action buttons
+        document.getElementById('kundliActions').style.display = '';
+        // Store kundli data for save
+        window._lastKundliData = data;
+      } catch (err) {
+        alert('Error generating kundli. Please try again.');
+      }
+    });
+    // Save Kundli button handler
+    document.getElementById('saveKundliBtn').onclick = async function() {
+      const kundli = window._lastKundliData;
+      if (!kundli) return alert('No kundli data to save!');
+      try {
+        const res = await fetch('/api/save-kundli', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(kundli)
+        });
+        if (!res.ok) throw new Error('Failed to save kundli');
+        alert('Kundli saved successfully!');
+      } catch (e) {
+        alert('Error saving kundli: ' + (e.message || e));
+      }
+    };
+    // Download Kundli button handler
+    document.getElementById('downloadKundliBtn').onclick = function() {
+      // Ensure kundliResult is visible and DOM is updated before PDF
+      const resultDiv = document.getElementById('kundliResult');
+      if (!resultDiv) return;
+      if (resultDiv.style.display === 'none') {
+        alert('Please generate a kundli first!');
+        return;
+      }
+      // Force reflow and repaint before generating PDF
+      resultDiv.style.display = 'block';
+      resultDiv.offsetHeight; // force reflow
+      setTimeout(() => {
+        downloadKundliPDF();
+      }, 100); // 100ms delay to ensure DOM is painted
+    };
+  </script>
+</body>
+</html>
+

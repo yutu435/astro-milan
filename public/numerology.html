@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Numerology Reading - Vedastro</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <style>
+    :root {
+      --purple: #7c3aed;
+      --gold: #ffd700;
+      --bg: #f8fafc;
+      --bg2: #ede9fe;
+      --text: #222;
+      --radius: 1.2rem;
+      --shadow: 0 4px 18px rgba(124,58,237,0.09);
+    }
+    html, body {
+      box-sizing: border-box;
+      width: 100%;
+      min-width: 0;
+      min-height: 100vh;
+    }
+    *, *:before, *:after {
+      box-sizing: inherit;
+    }
+    body {
+      margin: 0;
+      font-family: 'Montserrat', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      width: 100%;
+      min-width: 0;
+      min-height: 100vh;
+    }
+    .header {
+      text-align: center;
+      background: var(--bg2);
+      padding: 2rem 1rem 1rem 1rem;
+      border-radius: 0 0 2rem 2rem;
+      box-shadow: var(--shadow);
+      font-size: 2rem;
+      color: var(--purple);
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 2rem;
+      max-width: 100vw;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .container {
+      max-width: 430px;
+      margin: 0 auto 2rem auto;
+      background: #fff;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 2rem 1.5rem 1.5rem 1.5rem;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    label {
+      font-weight: 600;
+      color: var(--purple);
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+    input[type="text"], input[type="date"] {
+      width: 100%;
+      padding: 0.7rem;
+      border: 1.5px solid var(--gold);
+      border-radius: 0.7rem;
+      font-size: 1rem;
+      background: #f3f0ff;
+      color: #5b21b6;
+      box-sizing: border-box;
+      outline: none;
+      margin-bottom: 1.2rem;
+      transition: border 0.2s;
+    }
+    input:focus {
+      border: 2px solid var(--purple);
+      background: #ede9fe;
+    }
+    .submit-btn {
+      width: 100%;
+      background: linear-gradient(90deg, var(--purple) 0%, var(--gold) 100%);
+      color: #fff;
+      font-size: 1.1rem;
+      font-weight: 700;
+      padding: 0.9rem 0;
+      border: none;
+      border-radius: 2rem;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(124,58,237,0.13);
+      margin-bottom: 0.7rem;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .submit-btn:hover {
+      background: linear-gradient(90deg, var(--gold) 0%, var(--purple) 100%);
+      transform: translateY(-2px) scale(1.03);
+    }
+    .numerology-output {
+      margin-top: 2rem;
+      background: var(--bg2);
+      border-radius: 1rem;
+      min-height: 80px;
+      padding: 1.2rem;
+      color: #3b0764;
+      box-shadow: 0 2px 8px rgba(124,58,237,0.07);
+      font-size: 1.05rem;
+      text-align: center;
+    }
+    .num-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--purple);
+      margin-bottom: 0.7rem;
+    }
+    .num-section {
+      margin-bottom: 0.7rem;
+    }
+    .save-btn {
+      background: linear-gradient(90deg, var(--gold) 0%, var(--purple) 100%);
+      color: #fff;
+      font-weight: 600;
+      margin-top: 0.5rem;
+      border: none;
+      border-radius: 2rem;
+      padding: 0.7rem 0;
+      width: 100%;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(124,58,237,0.13);
+      transition: background 0.2s, transform 0.2s;
+    }
+    .save-btn:hover {
+      background: linear-gradient(90deg, var(--purple) 0%, var(--gold) 100%);
+      transform: translateY(-2px) scale(1.03);
+    }
+    #navbar {
+      background: #fff;
+      border-top: 1px solid #eaeaea;
+      box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+    }
+    .nav-links {
+      display: flex;
+      justify-content: space-around;
+      padding: 0.7rem 0;
+    }
+    .nav-links a {
+      color: var(--purple);
+      font-size: 1.2rem;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover {
+      color: var(--gold);
+    }
+    @media (max-width: 600px) {
+      .container {
+        padding: 1.2rem 0.5rem 1rem 0.5rem;
+        margin: 1.2rem 0.2rem 1rem 0.2rem;
+        max-width: 100vw;
+      }
+      .header {
+        font-size: 1.3rem;
+        padding: 1.2rem 0.5rem 0.7rem 0.5rem;
+      }
+    }
+    @media (max-width: 500px) {
+      .container {
+        padding: 0.7rem 0.1rem 0.4rem 0.1rem;
+      }
+      .header {
+        font-size: 1.1rem;
+        padding: 0.7rem 0.1rem 0.4rem 0.1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">Numerology Reading</div>
+  <div class="container">
+    <form id="numForm" autocomplete="off">
+      <label for="fullName">Full Name</label>
+      <input type="text" id="fullName" name="fullName" required placeholder="Enter your full name">
+      <label for="dob">Date of Birth</label>
+      <input type="date" id="dob" name="dob" required>
+      <button type="submit" class="submit-btn">Get Numerology Reading</button>
+      <button type="button" class="save-btn" id="saveNumBtn" style="display:none;">Save Reading</button>
+    </form>
+    <div class="numerology-output" id="numOutput"></div>
+  </div>
+  <div id="navbar">
+    <div class="nav-links">
+      <a href="index.html" title="Home"><i class="fa-solid fa-house"></i></a>
+      <a href="kundli.html" title="Kundli"><i class="fa-solid fa-om"></i></a>
+      <a href="numerology.html" title="Numerology"><i class="fa-solid fa-hashtag"></i></a>
+      <a href="blog.html" title="Blog"><i class="fa-solid fa-blog"></i></a>
+      <a href="remedies.html" title="Remedies"><i class="fa-solid fa-leaf"></i></a>
+    </div>
+  </div>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+    // You may want to import config from config.js in real app
+    const firebaseConfig = {
+      apiKey: "AIzaSyAofTel__Ne7wI_afRNw298Odk670eSmak",
+      authDomain: "astrotalk-46cd1.firebaseapp.com",
+      projectId: "astrotalk-46cd1",
+      storageBucket: "astrotalk-46cd1.firebasestorage.app",
+      messagingSenderId: "527903824485",
+      appId: "1:527903824485:web:2266df9497447de9b1048c",
+      measurementId: "G-K30DRSW9CK"
+    };
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth(app);
+
+    let lastReading = null;
+    let user = null;
+
+    // Numerology helpers
+    function reduceToDigit(n) {
+      while (n > 9 && n !== 11 && n !== 22 && n !== 33) {
+        n = n.toString().split('').reduce((a, b) => a + Number(b), 0);
+      }
+      return n;
+    }
+    function getLifePathNumber(dob) {
+      // dob: YYYY-MM-DD
+      const [y, m, d] = dob.split('-').map(Number);
+      return reduceToDigit(
+        reduceToDigit(y) + reduceToDigit(m) + reduceToDigit(d)
+      );
+    }
+    function getDestinyNumber(name) {
+      // A=1, B=2, ..., I=9, J=1, ..., R=9, S=1, ..., Z=8
+      const table = {A:1,B:2,C:3,D:4,E:5,F:6,G:7,H:8,I:9,
+        J:1,K:2,L:3,M:4,N:5,O:6,P:7,Q:8,R:9,
+        S:1,T:2,U:3,V:4,W:5,X:6,Y:7,Z:8};
+      let sum = 0;
+      name.toUpperCase().replace(/[^A-Z]/g,'').split('').forEach(ch => {
+        sum += table[ch] || 0;
+      });
+      return reduceToDigit(sum);
+    }
+    function getPersonalYear(dob) {
+      const now = new Date();
+      const [y, m, d] = dob.split('-').map(Number);
+      return reduceToDigit(now.getFullYear() + m + d);
+    }
+    function getPersonalDay(dob) {
+      const now = new Date();
+      const [y, m, d] = dob.split('-').map(Number);
+      return reduceToDigit(now.getFullYear() + now.getMonth() + 1 + now.getDate() + m + d);
+    }
+    // Dummy traits/career/lucky for demo
+    function getTraits(num) {
+      const traits = {
+        1: "Leader, Ambitious, Independent",
+        2: "Diplomatic, Sensitive, Cooperative",
+        3: "Creative, Expressive, Joyful",
+        4: "Practical, Reliable, Hardworking",
+        5: "Adventurous, Freedom-loving, Versatile",
+        6: "Caring, Responsible, Nurturing",
+        7: "Analytical, Spiritual, Introspective",
+        8: "Powerful, Ambitious, Efficient",
+        9: "Compassionate, Humanitarian, Generous",
+        11: "Visionary, Inspired, Intuitive",
+        22: "Master Builder, Practical Visionary",
+        33: "Master Teacher, Compassionate"
+      };
+      return traits[num] || "-";
+    }
+    function getCareer(num) {
+      const careers = {
+        1: "Entrepreneur, Manager, Pioneer",
+        2: "Counselor, Mediator, Artist",
+        3: "Writer, Actor, Designer",
+        4: "Engineer, Architect, Organizer",
+        5: "Sales, Travel, Media",
+        6: "Teacher, Doctor, Caregiver",
+        7: "Scientist, Philosopher, Researcher",
+        8: "Executive, Financier, Politician",
+        9: "Healer, Philanthropist, Artist",
+        11: "Spiritual Leader, Inventor",
+        22: "Architect, Leader, Organizer",
+        33: "Teacher, Healer, Mentor"
+      };
+      return careers[num] || "-";
+    }
+    function getLucky(num) {
+      const lucky = {
+        1: { color: "Red", element: "Fire" },
+        2: { color: "White", element: "Water" },
+        3: { color: "Yellow", element: "Air" },
+        4: { color: "Blue", element: "Earth" },
+        5: { color: "Green", element: "Ether" },
+        6: { color: "Pink", element: "Earth" },
+        7: { color: "Purple", element: "Water" },
+        8: { color: "Black", element: "Earth" },
+        9: { color: "Gold", element: "Fire" },
+        11: { color: "Silver", element: "Air" },
+        22: { color: "Blue", element: "Earth" },
+        33: { color: "Gold", element: "Fire" }
+      };
+      return lucky[num] || { color: "-", element: "-" };
+    }
+
+    document.getElementById('numForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const name = document.getElementById('fullName').value.trim();
+      const dob = document.getElementById('dob').value;
+      if (!name || !dob) return;
+      const lifePath = getLifePathNumber(dob);
+      const destiny = getDestinyNumber(name);
+      const traits = getTraits(lifePath);
+      const career = getCareer(lifePath);
+      const lucky = getLucky(lifePath);
+      const personalYear = getPersonalYear(dob);
+      const personalDay = getPersonalDay(dob);
+      lastReading = {
+        name, dob, lifePath, destiny, traits, career, lucky, personalYear, personalDay, createdAt: new Date().toISOString()
+      };
+      document.getElementById('numOutput').innerHTML = `
+        <div class="num-title">Numerology Reading for ${name}</div>
+        <div class="num-section"><b>Life Path Number:</b> ${lifePath}</div>
+        <div class="num-section"><b>Destiny Number:</b> ${destiny}</div>
+        <div class="num-section"><b>Traits:</b> ${traits}</div>
+        <div class="num-section"><b>Career Suggestions:</b> ${career}</div>
+        <div class="num-section"><b>Lucky Color:</b> ${lucky.color} &nbsp; <b>Element:</b> ${lucky.element}</div>
+        <div class="num-section"><b>Personal Year:</b> ${personalYear} &nbsp; <b>Personal Day:</b> ${personalDay}</div>
+      `;
+      document.getElementById('saveNumBtn').style.display = 'block';
+    });
+
+    document.getElementById('saveNumBtn').addEventListener('click', async function() {
+      if (!lastReading) return;
+      onAuthStateChanged(auth, async user => {
+        if (!user) {
+          alert("Please login to save your reading.");
+          return;
+        }
+        try {
+          await addDoc(collection(db, "users", user.uid, "numerology_readings"), lastReading);
+          alert("Numerology reading saved!");
+        } catch (e) {
+          alert("Could not save reading.");
+        }
+      });
+    });
+  </script>
+  <div id="navbar"></div>
+<script src="js/navbar.js"></script>
+</body>
+</html>

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sign Up - Vedastro</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <style>
+    html, body {
+      box-sizing: border-box;
+      width: 100%;
+      min-width: 0;
+      min-height: 100vh;
+    }
+    *, *:before, *:after {
+      box-sizing: inherit;
+    }
+    body {
+      margin: 0;
+      font-family: 'Montserrat', sans-serif;
+      background: #f8fafc;
+      color: #222;
+      width: 100%;
+      min-width: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .signup-container {
+      background: #fff;
+      border-radius: 1.2rem;
+      box-shadow: 0 4px 18px rgba(124,58,237,0.09);
+      padding: 2.2rem 1.5rem 1.5rem 1.5rem;
+      max-width: 370px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .signup-container h2 {
+      text-align: center;
+      color: #7c3aed;
+      margin-bottom: 1.2rem;
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+    .signup-form label {
+      display: block;
+      margin-bottom: 0.3rem;
+      font-weight: 600;
+      color: #7c3aed;
+    }
+    .signup-form input[type="text"],
+    .signup-form input[type="email"],
+    .signup-form input[type="password"],
+    .signup-form input[type="date"],
+    .signup-form select {
+      width: 100%;
+      padding: 0.7rem;
+      border: 1.5px solid #ffd700;
+      border-radius: 0.7rem;
+      margin-bottom: 1.1rem;
+      font-size: 1rem;
+      background: #f3f0ff;
+      color: #5b21b6;
+      box-sizing: border-box;
+      outline: none;
+      transition: border 0.2s;
+    }
+    .signup-form input:focus, .signup-form select:focus {
+      border: 2px solid #7c3aed;
+      background: #ede9fe;
+    }
+    .signup-form button {
+      width: 100%;
+      background: linear-gradient(90deg, #ffd700 0%, #7c3aed 100%);
+      color: #fff;
+      font-size: 1.1rem;
+      font-weight: 700;
+      padding: 0.9rem 0;
+      border: none;
+      border-radius: 2rem;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(124,58,237,0.13);
+      margin-bottom: 0.7rem;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .signup-form button:hover {
+      background: linear-gradient(90deg, #7c3aed 0%, #ffd700 100%);
+      transform: translateY(-2px) scale(1.03);
+    }
+    .login-link {
+      display: block;
+      text-align: center;
+      margin-top: 1.2rem;
+      color: #7c3aed;
+      text-decoration: underline;
+      font-size: 0.98rem;
+      cursor: pointer;
+    }
+    .error-msg {
+      color: #e53935;
+      text-align: center;
+      margin-bottom: 0.7rem;
+      font-size: 0.98rem;
+    }
+    .success-msg {
+      color: #388e3c;
+      text-align: center;
+      margin-bottom: 0.7rem;
+      font-size: 0.98rem;
+    }
+    @media (max-width: 600px) {
+      .signup-container {
+        padding: 1.2rem 0.5rem 1rem 0.5rem;
+        margin: 1.2rem 0.2rem 1rem 0.2rem;
+        max-width: 100vw;
+      }
+    }
+    @media (max-width: 400px) {
+      .signup-container {
+        padding: 0.7rem 0.1rem 0.4rem 0.1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="signup-container">
+    <h2>Create Account</h2>
+    <form class="signup-form" id="signupForm" autocomplete="off">
+      <label for="name">Full Name</label>
+      <input type="text" id="name" required>
+      <label for="dob">Date of Birth</label>
+      <input type="date" id="dob" required>
+      <label for="gender">Gender</label>
+      <select id="gender" required>
+        <option value="">Select</option>
+        <option value="Female">Female</option>
+        <option value="Male">Male</option>
+        <option value="Other">Other</option>
+      </select>
+      <label for="email">Email</label>
+      <input type="email" id="email" required>
+      <label for="password">Password</label>
+      <input type="password" id="password" required>
+      <button type="submit">Sign Up</button>
+      <div class="error-msg" id="errorMsg"></div>
+      <div class="success-msg" id="successMsg"></div>
+      <div class="login-link">
+        Already have an account? <a href="login.html">Sign In</a>
+      </div>
+    </form>
+  </div>
+  <script type="module">
+    import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+    import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+    // You may want to import config from config.js in real app
+    const firebaseConfig = {
+      apiKey: "AIzaSyAofTel__Ne7wI_afRNw298Odk670eSmak",
+      authDomain: "astrotalk-46cd1.firebaseapp.com",
+      projectId: "astrotalk-46cd1",
+      storageBucket: "astrotalk-46cd1.firebasestorage.app",
+      messagingSenderId: "527903824485",
+      appId: "1:527903824485:web:2266df9497447de9b1048c",
+      measurementId: "G-K30DRSW9CK"
+    };
+    // Prevent double initialization error
+    const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    const signupForm = document.getElementById('signupForm');
+    const errorMsg = document.getElementById('errorMsg');
+    const successMsg = document.getElementById('successMsg');
+
+    signupForm.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      errorMsg.textContent = "";
+      successMsg.textContent = "";
+      const name = document.getElementById('name').value.trim();
+      const dob = document.getElementById('dob').value;
+      const gender = document.getElementById('gender').value;
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      if (!name || !dob || !gender || !email || !password) {
+        errorMsg.textContent = "Please fill all fields.";
+        return;
+      }
+      try {
+        // Firebase requires a valid email and password (min 6 chars)
+        if (password.length < 6) {
+          errorMsg.textContent = "Password must be at least 6 characters.";
+          return;
+        }
+        const userCred = await createUserWithEmailAndPassword(auth, email, password);
+        await updateProfile(userCred.user, { displayName: name });
+        await setDoc(doc(db, "users", userCred.user.uid), {
+          name, dob, gender, email, createdAt: new Date().toISOString()
+        });
+        successMsg.textContent = "Signup successful! Redirecting...";
+        setTimeout(() => window.location.href = "index.html", 1200);
+      } catch (err) {
+        // Show friendlier error messages
+        let msg = err.message.replace("Firebase: ", "");
+        if (msg.includes("email-already")) msg = "Email already in use.";
+        if (msg.includes("invalid-email")) msg = "Invalid email address.";
+        if (msg.includes("weak-password")) msg = "Password must be at least 6 characters.";
+        errorMsg.textContent = msg;
+      }
+    });
+  </script>
+</body>
+</html>

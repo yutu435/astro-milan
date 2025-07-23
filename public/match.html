@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Match Making - Vedastro</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <style>
+    :root {
+      --purple: #7c3aed;
+      --gold: #ffd700;
+      --bg: #f8fafc;
+      --bg2: #ede9fe;
+      --text: #222;
+      --radius: 1.2rem;
+      --shadow: 0 4px 18px rgba(124,58,237,0.09);
+    }
+    html, body {
+      box-sizing: border-box;
+      width: 100%;
+      min-width: 0;
+      min-height: 100vh;
+    }
+    *, *:before, *:after {
+      box-sizing: inherit;
+    }
+    body {
+      margin: 0;
+      font-family: 'Montserrat', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      width: 100%;
+      min-width: 0;
+      min-height: 100vh;
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.7rem;
+      background: var(--bg2);
+      padding: 2rem 1rem 1rem 1rem;
+      border-radius: 0 0 2rem 2rem;
+      box-shadow: var(--shadow);
+      font-size: 2rem;
+      color: var(--purple);
+      font-weight: 700;
+      letter-spacing: 1px;
+      max-width: 100vw;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .match-form-container, .match-output {
+      max-width: 600px;
+      margin: 2rem auto 2rem auto;
+      background: #fff;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 2rem 1.5rem 1.5rem 1.5rem;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .match-form {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      justify-content: space-between;
+    }
+    .person-section {
+      flex: 1 1 220px;
+      min-width: 220px;
+    }
+    .person-section h3 {
+      color: var(--purple);
+      margin-bottom: 0.7rem;
+      font-size: 1.1rem;
+      text-align: center;
+    }
+    .form-group {
+      margin-bottom: 1rem;
+      position: relative;
+    }
+    label {
+      display: block;
+      margin-bottom: 0.3rem;
+      font-weight: 600;
+      color: #5b21b6;
+      letter-spacing: 0.5px;
+    }
+    input[type="text"], input[type="date"], input[type="time"], select {
+      width: 100%;
+      padding: 0.7rem;
+      border: 1.5px solid var(--gold);
+      border-radius: 0.7rem;
+      font-size: 1rem;
+      background: #f3f0ff;
+      color: #5b21b6;
+      box-sizing: border-box;
+      outline: none;
+      transition: border 0.2s;
+      margin-bottom: 0.2rem;
+    }
+    input:focus, select:focus {
+      border: 2px solid var(--purple);
+      background: #ede9fe;
+    }
+    .submit-btn {
+      width: 100%;
+      background: linear-gradient(90deg, var(--gold) 0%, var(--purple) 100%);
+      color: #fff;
+      font-size: 1.1rem;
+      font-weight: 700;
+      padding: 0.9rem 0;
+      border: none;
+      border-radius: 2rem;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(124,58,237,0.13);
+      margin-top: 1.2rem;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .submit-btn:hover {
+      background: linear-gradient(90deg, var(--purple) 0%, var(--gold) 100%);
+      transform: translateY(-2px) scale(1.03);
+    }
+    /* Output Section */
+    .match-output {
+      max-width: 600px;
+      margin: 2rem auto 2rem auto;
+      background: var(--bg2);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 2rem 1.5rem;
+      color: #3b0764;
+      font-size: 1.07rem;
+    }
+    .score {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--purple);
+      margin-bottom: 0.7rem;
+      text-align: center;
+    }
+    .compatibility-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.2rem 0;
+    }
+    .compatibility-table th, .compatibility-table td {
+      border: 1px solid #d1c4e9;
+      padding: 0.6rem 0.5rem;
+      text-align: center;
+      font-size: 1rem;
+    }
+    .compatibility-table th {
+      background: #f3e8ff;
+      color: var(--purple);
+    }
+    .recommendation {
+      font-size: 1.15rem;
+      font-weight: 600;
+      text-align: center;
+      margin-top: 1.2rem;
+      color: #b45309;
+    }
+    @media (max-width: 700px) {
+      .match-form {
+        flex-direction: column;
+        gap: 1.2rem;
+      }
+      .match-form-container, .match-output {
+        padding: 1.2rem 0.5rem;
+        max-width: 100vw;
+      }
+    }
+    @media (max-width: 500px) {
+      .match-form-container, .match-output {
+        padding: 0.7rem 0.1rem 0.4rem 0.1rem;
+      }
+      .header {
+        font-size: 1.1rem;
+        padding: 0.7rem 0.1rem 0.4rem 0.1rem;
+      }
+    }
+  </style>
+  <!-- Google Places API (for Place autocomplete) -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_API_KEY&libraries=places"></script>
+</head>
+<body>
+  <div class="header">
+    <span>Match Making</span>
+    <span style="font-size:2.2rem;">💖</span>
+  </div>
+  <div class="match-form-container">
+    <form id="matchForm" class="match-form" autocomplete="off">
+      <div class="person-section">
+        <h3>Person A</h3>
+        <div class="form-group">
+          <label for="aName">Name</label>
+          <input type="text" id="aName" name="aName" required>
+        </div>
+        <div class="form-group">
+          <label for="aDOB">Date of Birth</label>
+          <input type="date" id="aDOB" name="aDOB" required>
+        </div>
+        <div class="form-group">
+          <label for="aTOB">Time of Birth</label>
+          <input type="time" id="aTOB" name="aTOB" required>
+        </div>
+        <div class="form-group">
+          <label for="aGender">Gender</label>
+          <select id="aGender" name="aGender" required>
+            <option value="">Select</option>
+            <option value="Female">Female</option>
+            <option value="Male">Male</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="aPlace">Place of Birth</label>
+          <input type="text" id="aPlace" name="aPlace" required>
+        </div>
+      </div>
+      <div class="person-section">
+        <h3>Person B</h3>
+        <div class="form-group">
+          <label for="bName">Name</label>
+          <input type="text" id="bName" name="bName" required>
+        </div>
+        <div class="form-group">
+          <label for="bDOB">Date of Birth</label>
+          <input type="date" id="bDOB" name="bDOB" required>
+        </div>
+        <div class="form-group">
+          <label for="bTOB">Time of Birth</label>
+          <input type="time" id="bTOB" name="bTOB" required>
+        </div>
+        <div class="form-group">
+          <label for="bGender">Gender</label>
+          <select id="bGender" name="bGender" required>
+            <option value="">Select</option>
+            <option value="Female">Female</option>
+            <option value="Male">Male</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="bPlace">Place of Birth</label>
+          <input type="text" id="bPlace" name="bPlace" required>
+        </div>
+      </div>
+      <div style="flex-basis:100%;text-align:center;">
+        <button type="submit" class="submit-btn">Check Match</button>
+      </div>
+    </form>
+  </div>
+  <div class="match-output" id="matchOutput" style="display:none;"></div>
+  <script type="module">
+    // Firebase config import (replace with import from config.js in real app)
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+    const firebaseConfig = {
+      apiKey: "AIzaSyAofTel__Ne7wI_afRNw298Odk670eSmak",
+      authDomain: "astrotalk-46cd1.firebaseapp.com",
+      projectId: "astrotalk-46cd1",
+      storageBucket: "astrotalk-46cd1.firebasestorage.app",
+      messagingSenderId: "527903824485",
+      appId: "1:527903824485:web:2266df9497447de9b1048c",
+      measurementId: "G-K30DRSW9CK"
+    };
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // Google Places Autocomplete for both places
+    function initAutocomplete() {
+      if (window.google && window.google.maps && window.google.maps.places) {
+        new google.maps.places.Autocomplete(document.getElementById('aPlace'), { types: ['(cities)'] });
+        new google.maps.places.Autocomplete(document.getElementById('bPlace'), { types: ['(cities)'] });
+      }
+    }
+    if (window.google && window.google.maps && window.google.maps.places) {
+      initAutocomplete();
+    } else {
+      window.addEventListener('load', () => setTimeout(initAutocomplete, 500));
+    }
+
+    // Dummy Gun Milan calculation and compatibility (replace with real logic)
+    function calculateMatch(a, b) {
+      // Random for demo, real logic should use astrology APIs
+      const score = Math.floor(Math.random() * 18) + 18; // 18-36
+      const highlightsA = `Sun Sign: Aries<br>Moon Sign: Taurus<br>Ascendant: Leo`;
+      const highlightsB = `Sun Sign: Virgo<br>Moon Sign: Gemini<br>Ascendant: Libra`;
+      const compatibility = {
+        Love: ["Excellent", "Good", "Average", "Poor"][Math.floor(Math.random()*4)],
+        Health: ["Good", "Average", "Excellent", "Poor"][Math.floor(Math.random()*4)],
+        Career: ["Average", "Good", "Excellent", "Poor"][Math.floor(Math.random()*4)],
+        Family: ["Good", "Excellent", "Average", "Poor"][Math.floor(Math.random()*4)]
+      };
+      let recommendation = score >= 18 ? "Recommended for Marriage 💍" : "Not Recommended for Marriage";
+      return { score, highlightsA, highlightsB, compatibility, recommendation };
+    }
+
+    document.getElementById('matchForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      // Get values
+      const a = {
+        name: document.getElementById('aName').value.trim(),
+        dob: document.getElementById('aDOB').value,
+        tob: document.getElementById('aTOB').value,
+        gender: document.getElementById('aGender').value,
+        place: document.getElementById('aPlace').value.trim()
+      };
+      const b = {
+        name: document.getElementById('bName').value.trim(),
+        dob: document.getElementById('bDOB').value,
+        tob: document.getElementById('bTOB').value,
+        gender: document.getElementById('bGender').value,
+        place: document.getElementById('bPlace').value.trim()
+      };
+      // Calculate match
+      const result = calculateMatch(a, b);
+      // Render output
+      document.getElementById('matchOutput').style.display = 'block';
+      document.getElementById('matchOutput').innerHTML = `
+        <div class="score">Gun Milan Score: <span style="color:#b45309">${result.score} / 36</span></div>
+        <div style="display:flex;gap:1.5rem;flex-wrap:wrap;justify-content:center;margin-bottom:1rem;">
+          <div>
+            <b>${a.name}</b><br>
+            <span style="font-size:0.97rem;">${result.highlightsA}</span>
+          </div>
+          <div>
+            <b>${b.name}</b><br>
+            <span style="font-size:0.97rem;">${result.highlightsB}</span>
+          </div>
+        </div>
+        <table class="compatibility-table">
+          <tr>
+            <th>Aspect</th>
+            <th>Compatibility</th>
+          </tr>
+          ${Object.entries(result.compatibility).map(([k,v])=>`<tr><td>${k}</td><td>${v}</td></tr>`).join('')}
+        </table>
+        <div class="recommendation">${result.recommendation}</div>
+      `;
+      // Store in Firebase
+      try {
+        await addDoc(collection(db, "kundli_matches"), {
+          personA: a,
+          personB: b,
+          result,
+          createdAt: new Date().toISOString()
+        });
+      } catch (err) {
+        alert("Could not save match result to Firebase.");
+      }
+    });
+  </script>
+  <div id="navbar"></div>
+<script src="js/navbar.js"></script>
+</body>
+</html>

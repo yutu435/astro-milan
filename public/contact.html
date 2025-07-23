@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Contact | NARENDRA Software</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap">
+  <style>
+    body {
+      font-family: 'Montserrat', Arial, sans-serif;
+      background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
+      color: #222;
+      margin: 0;
+      padding: 0;
+    }
+    .contact-container {
+      max-width: 500px;
+      margin: 2.5rem auto 2rem auto;
+      background: #fff;
+      border-radius: 1.2rem;
+      box-shadow: 0 4px 18px rgba(60,60,120,0.09);
+      padding: 2.2rem 1.5rem 1.5rem 1.5rem;
+    }
+    h1 {
+      text-align: center;
+      color: #6d28d9;
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 0.7rem;
+      letter-spacing: 1px;
+    }
+    .owner {
+      text-align: center;
+      color: #a78bfa;
+      font-size: 1.08rem;
+      margin-bottom: 1.5rem;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem;
+    }
+    label {
+      font-weight: 600;
+      color: #6d28d9;
+      margin-bottom: 0.2rem;
+      font-size: 1rem;
+    }
+    input[type="text"], input[type="email"], textarea {
+      width: 100%;
+      padding: 0.7rem;
+      border: 1.5px solid #a78bfa;
+      border-radius: 0.7rem;
+      font-size: 1rem;
+      background: #f3f4f6;
+      color: #222;
+      box-sizing: border-box;
+      outline: none;
+      transition: border 0.2s;
+      resize: none;
+    }
+    input[type="text"]:focus, input[type="email"]:focus, textarea:focus {
+      border: 2px solid #6d28d9;
+      background: #ede9fe;
+    }
+    textarea {
+      min-height: 90px;
+      max-height: 220px;
+    }
+    button[type="submit"] {
+      background: linear-gradient(90deg, #a78bfa 0%, #6d28d9 100%);
+      color: #fff;
+      font-size: 1.1rem;
+      font-weight: 700;
+      padding: 0.9rem 0;
+      border: none;
+      border-radius: 2rem;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(109,40,217,0.13);
+      margin-top: 0.7rem;
+      transition: background 0.2s, transform 0.2s;
+      width: 100%;
+    }
+    button[type="submit"]:hover {
+      background: linear-gradient(90deg, #6d28d9 0%, #a78bfa 100%);
+      transform: translateY(-2px) scale(1.03);
+    }
+    .contact-info {
+      margin-top: 2.2rem;
+      padding-top: 1.2rem;
+      border-top: 1px solid #ede9fe;
+      color: #444;
+      font-size: 1.08rem;
+    }
+    .contact-info-item {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      margin-bottom: 0.7rem;
+    }
+    .contact-info-item i {
+      color: #a78bfa;
+      font-size: 1.2rem;
+      min-width: 1.2rem;
+    }
+    @media (max-width: 600px) {
+      .contact-container {
+        padding: 1.2rem 0.5rem 1rem 0.5rem;
+        margin: 1.2rem 0.2rem 1rem 0.2rem;
+        max-width: 100vw;
+      }
+      h1 {
+        font-size: 1.3rem;
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+  <div class="contact-container">
+    <h1>Contact NARENDRA Software</h1>
+    <div class="owner">Owner: Ashwani Mishra</div>
+    <form>
+      <div>
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" required placeholder="Your Name">
+      </div>
+      <div>
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required placeholder="you@email.com">
+      </div>
+      <div>
+        <label for="subject">Subject</label>
+        <input type="text" id="subject" name="subject" required placeholder="Subject">
+      </div>
+      <div>
+        <label for="message">Message</label>
+        <textarea id="message" name="message" required placeholder="Type your message here..."></textarea>
+      </div>
+      <button type="submit">Send Message</button>
+    </form>
+    <div class="contact-info">
+      <div class="contact-info-item">
+        <i class="fa-solid fa-location-dot"></i>
+        <span>Company Address: 123, Your Business Street, City, Country</span>
+      </div>
+      <div class="contact-info-item">
+        <i class="fa-solid fa-envelope"></i>
+        <span>Email: info@narendrasoftware.com</span>
+      </div>
+      <div class="contact-info-item">
+        <i class="fa-solid fa-phone"></i>
+        <span>Phone: +91-9876543210</span>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
