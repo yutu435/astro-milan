@@ -1,1 +1,7 @@
-# ...existing code...
+node_modules
+*.zip
+*.exe
+*.mp4
+*.jpg
+*.png
+*.webp
