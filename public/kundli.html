@@ -272,8 +272,8 @@
       const lat = parseFloat(document.getElementById('lat').value);
       const lon = parseFloat(document.getElementById('lon').value);
       const timezone = parseFloat(document.getElementById('timezone').value);
-      // Gender selection (add if you have a field, else default)
-      const gender = "NA";
+      // Gender selection (dynamic if field exists, else default to 'male')
+      const gender = document.getElementById('gender') ? document.getElementById('gender').value : 'male';
       // Build payload as flat structure
       const payload = {
         name,
@@ -286,7 +286,7 @@
       };
       // Show loading or disable button if needed
       try {
-        const res = await fetch('/api/kundli', {
+        const res = await fetch('https://astro-milan-1.onrender.com/api/kundli', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
@@ -306,7 +306,7 @@
       const kundli = window._lastKundliData;
       if (!kundli) return alert('No kundli data to save!');
       try {
-        const res = await fetch('/api/save-kundli', {
+        const res = await fetch('https://astro-milan-1.onrender.com/api/save-kundli', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(kundli)

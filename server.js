@@ -22,9 +22,21 @@ app.post('/api/save-kundli', (req, res) => {
   return res.status(200).json({ message: 'Kundli saved successfully' });
 });
 
-app.use(cors());
+app.use(cors({
+  origin: [
+    "https://astrotalk-46cd1.web.app",
+    "http://localhost:5500"
+  ],
+  methods: ['POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type']
+}));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Serve kundli.html at root
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'kundli.html'));
+});
 
 app.post('/api/kundli', async (req, res) => {
   const { name, birthDate, birthTime, lat, lon, timezone, gender } = req.body;
@@ -39,6 +51,15 @@ app.post('/api/kundli', async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`Astro Milan server running at http://localhost:${PORT}`);
+});
+
+server.on('error', (err) => {
+  if (err.code === 'EADDRINUSE') {
+    console.error(`Port ${PORT} is already in use. Please stop the other process or use a different port.`);
+    process.exit(1);
+  } else {
+    throw err;
+  }
 });

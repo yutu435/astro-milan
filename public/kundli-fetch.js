@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const payload = { name, birthDate, birthTime, lat, lon, timezone, gender };
       resultDiv.style.display = 'none';
       try {
-        const res = await fetch('/api/kundli', {
+        const res = await fetch('https://astro-milan-1.onrender.com/api/kundli', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
@@ -135,6 +135,23 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
           divisionalDiv.innerHTML = '<p>Not available</p>';
         }
+
+        // Save Kundli button handler (update URL)
+        document.getElementById('saveKundliBtn').onclick = async function() {
+          const kundli = window._lastKundliData;
+          if (!kundli) return alert('No kundli data to save!');
+          try {
+            const res = await fetch('https://astro-milan-1.onrender.com/api/save-kundli', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(kundli)
+            });
+            if (!res.ok) throw new Error('Failed to save kundli');
+            alert('Kundli saved successfully!');
+          } catch (e) {
+            alert('Error saving kundli: ' + (e.message || e));
+          }
+        };
       } catch (err) {
         console.error('Failed to fetch:', err);
         resultDiv.style.display = '';
